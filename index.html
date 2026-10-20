@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#174D32">
+  <title>KrishiSetu AI — Bridging Farmers to Prosperity</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+</head>
+<body>
+
+  <!-- Prototype Transparency Banner -->
+  <div class="prototype-banner">
+    <div class="prototype-banner-inner">
+      <div>
+        <span class="badge-pill" data-i18n="prototype_badge">Hackathon Prototype v1.0</span>
+        <span style="margin-left: 8px;" data-i18n="prototype_notice">Local Prototype: Browser storage & Web Speech API active. Backend cloud database & Gemini API can be linked in the next phase.</span>
+      </div>
+      <div>
+        <span style="font-weight: 700; color: #FFF;">Offline-Ready</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="brand-icon">🌱</div>
+        <div class="brand-text">
+          <h1 data-i18n="app_title">KrishiSetu AI</h1>
+          <p data-i18n="app_tagline">Bridging Farmers to Prosperity</p>
+        </div>
+      </div>
+
+      <!-- Desktop Nav Links -->
+      <nav class="desktop-nav">
+        <a href="javascript:void(0)" onclick="switchView('home')" class="nav-link active" id="navHomeLink" data-i18n="nav_home">Home</a>
+        <a href="javascript:void(0)" onclick="openModal('machineryModal')" class="nav-link" data-i18n="nav_machinery">Rent Machinery</a>
+        <a href="javascript:void(0)" onclick="switchView('marketplace', 'list')" class="nav-link" data-i18n="nav_sell">Sell Crops</a>
+        <a href="javascript:void(0)" onclick="openModal('calculatorModal')" class="nav-link" data-i18n="nav_profit">Profit Calculator</a>
+        <a href="javascript:void(0)" onclick="switchView('marketplace', 'browse')" class="nav-link" data-i18n="nav_buyers">Find Buyers</a>
+        <a href="javascript:void(0)" onclick="switchView('marketplace', 'browse')" class="nav-link" style="color: var(--color-gold); font-weight: 700;">Marketplace 🛒</a>
+      </nav>
+
+      <!-- Nav Actions: Language & User Auth -->
+      <div class="nav-actions">
+        <!-- User Profile Pill (Visible when logged in) -->
+        <div class="user-profile-nav-pill" id="navUserPill" style="display: none;" onclick="openUserProfileModal()">
+          <div class="user-avatar-initials" id="navUserAvatar">R</div>
+          <div class="user-nav-details">
+            <span class="user-nav-name" id="navUserName">Farmer</span>
+            <span class="user-nav-role-badge" id="navUserRole">Farmer</span>
+          </div>
+        </div>
+
+        <!-- Log In Button (Visible when logged out) -->
+        <button type="button" class="btn-auth-nav" id="navAuthBtn" onclick="openAuthModal('login')">
+          <span>🔑</span> <span data-i18n="nav_login">Log In</span>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="lang-selector-wrapper">
+          <span class="lang-icon">🌐</span>
+          <select id="langSelect" class="lang-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Home View Wrapper -->
+  <div id="homeView">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-badge-tag">
+          <span>⚡</span> <span data-i18n="hero_greeting">Namaste, Farmer Friend!</span>
+        </div>
+        <h2 class="hero-headline" data-i18n="hero_headline">Smart, Fair & Direct Farming Support at Your Fingertips</h2>
+        <p class="hero-subtext" data-i18n="hero_subtext">Connect directly with machinery providers, genuine buyers, accurate mandi rates, and instant profit calculations — in your own language.</p>
+
+        <!-- Prominent AI Voice Assistant Button in Hero -->
+        <div class="voice-hero-box">
+          <div class="voice-hero-info">
+            <button class="voice-pulse-ring mic-trigger-btn" onclick="openModal('voiceModal')" title="Activate Voice Assistant" aria-label="Open Voice Assistant">
+              🎙️
+            </button>
+            <div class="voice-hero-titles">
+              <h3 data-i18n="voice_btn_label">Talk to KrishiSetu AI</h3>
+              <p data-i18n="voice_btn_hint">Tap to ask in Kannada, Hindi, or English</p>
+            </div>
+          </div>
+          <button class="voice-action-btn" onclick="openModal('voiceModal')">
+            <span>🎤</span> <span data-i18n="voice_btn_label">Talk to KrishiSetu AI</span>
+          </button>
+        </div>
+
+        <!-- Quick Weather & Mandi Highlights -->
+        <div class="mandi-ticker-row">
+          <div class="ticker-chip">
+            <span>🌦️</span> <span data-i18n="quick_weather_temp">28°C • Partly Cloudy</span>
+          </div>
+          <div class="ticker-chip">
+            <span>💧</span> <span data-i18n="quick_weather_rain">15% Rain Probability • Good for Harvesting</span>
+          </div>
+          <div class="ticker-chip">
+            <span>📍</span> <span data-i18n="quick_weather_location">Karnataka & Neighboring Hubs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content" id="features">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="features_heading">What would you like to do today?</h2>
+        <p class="section-subtitle" data-i18n="features_subheading">Tap any card below to launch the service instantly</p>
+      </div>
+
+      <!-- Four Large Feature Cards -->
+      <div class="features-grid">
+
+        <!-- Card 1: Rent Machinery -->
+        <div class="feature-card" onclick="openModal('machineryModal')">
+          <div>
+            <div class="card-top">
+              <div class="card-icon-bubble">🚜</div>
+              <span class="card-badge" data-i18n="card1_badge">Zero Middleman</span>
+            </div>
+            <h3 class="card-title" data-i18n="card1_title">Rent Machinery</h3>
+            <p class="card-desc" data-i18n="card1_desc">Tractors, Harvesters, Tillers & Sprayers at affordable hourly rates from local verified owners.</p>
+          </div>
+          <div class="card-action-link">
+            <span data-i18n="card1_cta">Browse Machinery</span> <span>➔</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Sell Crops -->
+        <div class="feature-card" onclick="switchView('marketplace', 'list')">
+          <div>
+            <div class="card-top">
+              <div class="card-icon-bubble">🌾</div>
+              <span class="card-badge" data-i18n="card2_badge">Direct APMC Link</span>
+            </div>
+            <h3 class="card-title" data-i18n="card2_title">Sell Crops</h3>
+            <p class="card-desc" data-i18n="card2_desc">List your harvest directly to millers, bulk buyers & retail hubs. Get fair prices without distress selling.</p>
+          </div>
+          <div class="card-action-link">
+            <span data-i18n="card2_cta">List Your Produce</span> <span>➔</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Calculate Profit -->
+        <div class="feature-card" onclick="openModal('calculatorModal')">
+          <div>
+            <div class="card-top">
+              <div class="card-icon-bubble">💰</div>
+              <span class="card-badge" data-i18n="card3_badge">Smart Estimator</span>
+            </div>
+            <h3 class="card-title" data-i18n="card3_title">Calculate Profit</h3>
+            <p class="card-desc" data-i18n="card3_desc">Estimate your crop yield, input costs, gross revenue, and net profit before you take your produce to market.</p>
+          </div>
+          <div class="card-action-link">
+            <span data-i18n="card3_cta">Open Calculator</span> <span>➔</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Find Buyers -->
+        <div class="feature-card" onclick="switchView('marketplace', 'browse')">
+          <div>
+            <div class="card-top">
+              <div class="card-icon-bubble">🤝</div>
+              <span class="card-badge" data-i18n="card4_badge">Verified Partners</span>
+            </div>
+            <h3 class="card-title" data-i18n="card4_title">Find Buyers</h3>
+            <p class="card-desc" data-i18n="card4_desc">Browse certified buyers, agricultural cooperatives (FPOs), and regional traders with transparent pricing.</p>
+          </div>
+          <div class="card-action-link">
+            <span data-i18n="card4_cta">View Buyer Directory</span> <span>➔</span>
+          </div>
+        </div>
+
+      </div>
+
+    <!-- Live Mandi Rates Section -->
+    <div class="mandi-section">
+      <div class="mandi-header">
+        <div class="mandi-title">
+          <span class="live-indicator"></span>
+          <span>Today's APMC Modal Prices (Karnataka & Regional Mandis)</span>
+        </div>
+        <span class="badge-pill">Updated Today</span>
+      </div>
+
+      <div class="mandi-table-wrapper">
+        <table class="mandi-table">
+          <thead>
+            <tr>
+              <th>Commodity</th>
+              <th>Variety</th>
+              <th>Market / Mandi</th>
+              <th>Modal Price (₹/Quintal)</th>
+              <th>Daily Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tomato (ಟೊಮೆಟೊ)</strong></td>
+              <td>Hybrid Grade A</td>
+              <td>Kolar APMC</td>
+              <td><strong>₹2,400</strong></td>
+              <td class="trend-up">▲ +₹150</td>
+            </tr>
+            <tr>
+              <td><strong>Paddy / Rice (ಭತ್ತ)</strong></td>
+              <td>Sona Masoori</td>
+              <td>Mandya APMC</td>
+              <td><strong>₹2,850</strong></td>
+              <td class="trend-up">▲ +₹50</td>
+            </tr>
+            <tr>
+              <td><strong>Ragi (ರಾಗಿ)</strong></td>
+              <td>Local Organic</td>
+              <td>Bangalore Rural</td>
+              <td><strong>₹3,600</strong></td>
+              <td>▬ Stable</td>
+            </tr>
+            <tr>
+              <td><strong>Onion (ಈರುಳ್ಳಿ)</strong></td>
+              <td>Bellary Red</td>
+              <td>Yeshwanthpur</td>
+              <td><strong>₹1,850</strong></td>
+              <td class="trend-down">▼ -₹80</td>
+            </tr>
+            <tr>
+              <td><strong>Maize (ಮೆಕ್ಕೆಜೋಳ)</strong></td>
+              <td>Yellow Hybrid</td>
+              <td>Davanagere</td>
+              <td><strong>₹2,150</strong></td>
+              <td class="trend-up">▲ +₹70</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  </div> <!-- End of homeView -->
+
+  <!-- ====================================================
+       MARKETPLACE VIEW: Sell Crops & Find Buyers
+       ==================================================== -->
+  <div id="marketplaceView" class="marketplace-section" style="display: none;">
+    <!-- Marketplace Hero Bar -->
+    <div class="marketplace-hero-bar">
+      <div class="marketplace-title-group">
+        <h2 data-i18n="marketplace_title">Sell Crops & Find Buyers</h2>
+        <p data-i18n="marketplace_subtitle">Direct agricultural trading connecting verified local farmers with commercial buyers, millers, and retail aggregators.</p>
+      </div>
+      <div class="marketplace-action-buttons">
+        <button class="btn-marketplace-primary" onclick="switchMarketplaceTab('list')">
+          <span>➕</span> <span data-i18n="btn_list_crop">List Your Crop</span>
+        </button>
+        <button class="btn-marketplace-secondary" onclick="switchMarketplaceTab('enquiries')">
+          <span>📬</span> <span data-i18n="tab_my_enquiries">My Enquiries & Bids</span> <span class="m-tab-badge" id="enquiriesCountBadge">0</span>
+        </button>
+        <button class="btn-marketplace-secondary" onclick="switchView('home')">
+          <span>🏠</span> <span data-i18n="btn_back_home">Back to Home</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Marketplace Tabs -->
+    <div class="marketplace-tabs">
+      <button class="m-tab-btn active" id="tabBtnBrowse" onclick="switchMarketplaceTab('browse')">
+        <span>🛒</span> <span data-i18n="tab_browse">Browse All Crops</span>
+      </button>
+      <button class="m-tab-btn" id="tabBtnList" onclick="switchMarketplaceTab('list')">
+        <span>➕</span> <span data-i18n="tab_list_crop">List a New Crop</span>
+      </button>
+      <button class="m-tab-btn" id="tabBtnEnquiries" onclick="switchMarketplaceTab('enquiries')">
+        <span>📬</span> <span data-i18n="tab_my_enquiries">My Enquiries & Bids</span>
+        <span class="m-tab-badge" id="enquiriesCountBadgeTab">0</span>
+      </button>
+      <button class="m-tab-btn" id="tabBtnBuyers" onclick="switchMarketplaceTab('buyers')">
+        <span>🤝</span> <span data-i18n="tab_buyers_directory">Verified Buyers</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: BROWSE CROPS -->
+    <div id="mTabBrowseContent">
+      <!-- Search and Filter Panel -->
+      <div class="marketplace-filter-panel">
+        <div class="filter-grid-row">
+          <div class="search-input-wrapper">
+            <span class="search-icon-inside">🔍</span>
+            <input type="text" id="marketplaceSearchInput" class="form-control search-input-field" placeholder="Search crop name (e.g. Tomato, Paddy, Ragi, Maize)..." data-i18n="search_placeholder" oninput="handleMarketplaceSearch(this.value)">
+          </div>
+
+          <div>
+            <select id="marketplaceCategorySelect" class="form-control" onchange="handleFilterCategory(this.value)">
+              <option value="all" data-i18n="filter_category_all">All Categories</option>
+              <option value="grains">Grains & Cereals (ಧಾನ್ಯಗಳು)</option>
+              <option value="vegetables">Vegetables (ತರಕಾರಿಗಳು)</option>
+              <option value="fruits">Fruits (ಹಣ್ಣುಗಳು)</option>
+              <option value="pulses">Pulses & Oilseeds (ದ್ವಿದಳ ಧಾನ್ಯಗಳು)</option>
+              <option value="commercial">Commercial / Spices (ವಾಣಿಜ್ಯ ಬೆಳೆಗಳು)</option>
+            </select>
+          </div>
+
+          <div>
+            <select id="marketplaceDistrictSelect" class="form-control" onchange="handleFilterDistrict(this.value)">
+              <option value="all" data-i18n="filter_district_all">All Districts</option>
+              <option value="Mandya">Mandya (ಮಂಡ್ಯ)</option>
+              <option value="Kolar">Kolar (ಕೋಲಾರ)</option>
+              <option value="Shimoga">Shimoga (ಶಿವಮೊಗ್ಗ)</option>
+              <option value="Bangalore Rural">Bangalore Rural (ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ)</option>
+              <option value="Hassan">Hassan (ಹಾಸನ)</option>
+              <option value="Davanagere">Davanagere (ದಾವಣಗೆರೆ)</option>
+              <option value="Kalaburagi">Kalaburagi (ಕಲಬುರಗಿ)</option>
+              <option value="Belagavi">Belagavi (ಬೆಳಗಾವಿ)</option>
+              <option value="Mysuru">Mysuru (ಮೈಸೂರು)</option>
+              <option value="Tumkur">Tumkur (ತುಮಕೂರು)</option>
+            </select>
+          </div>
+
+          <div>
+            <select id="marketplaceSortSelect" class="form-control" onchange="handleFilterSort(this.value)">
+              <option value="latest" data-i18n="filter_price_sort">Sort: Latest</option>
+              <option value="price_asc" data-i18n="price_low_high">Price: Low to High</option>
+              <option value="price_desc" data-i18n="price_high_low">Price: High to Low</option>
+            </select>
+          </div>
+
+          <div>
+            <button class="btn-filter-reset" onclick="resetMarketplaceFilters()">
+              <span>🔄</span> Reset
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 0.85rem; color: var(--color-text-muted); flex-wrap: wrap; gap: 8px;">
+          <span id="marketplaceResultsCount">Showing all active crop listings</span>
+          <span>💡 Tip: Tap <strong>Enquire</strong> to send a direct price offer to the farmer.</span>
+        </div>
+      </div>
+
+      <!-- Crops Catalog Grid -->
+      <div class="crops-catalog-grid" id="marketplaceCropsGrid">
+        <!-- Dynamically rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 2: LIST YOUR CROP -->
+    <div id="mTabListContent" style="display: none;">
+      <div style="background: #FFFFFF; border-radius: var(--radius-lg); padding: 28px; border: 1px solid var(--color-border); max-width: 800px; margin: 0 auto; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+          <span style="font-size: 2.2rem;">🌾</span>
+          <div>
+            <h3 style="color: var(--color-forest); font-size: 1.4rem; font-weight: 800;" data-i18n="tab_list_crop">List a New Crop</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.88rem;">Publish your produce directly to wholesale buyers, millers, and retail aggregators.</p>
+          </div>
+        </div>
+
+        <div id="listingErrorBanner" style="display: none; background: #FFEBEE; border-left: 4px solid var(--color-danger); color: #C62828; padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 0.9rem;">
+          <!-- Validation error message -->
+        </div>
+
+        <form id="marketplaceListingForm" onsubmit="handleNewCropListing(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Crop Name *</label>
+              <input type="text" id="mCropName" class="form-control" placeholder="e.g. Sona Masoori Paddy, Tomato, Ragi" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_crop_category">Crop Category *</label>
+              <select id="mCropCategory" class="form-control" required>
+                <option value="grains">Grains & Cereals (ಧಾನ್ಯಗಳು / अनाज)</option>
+                <option value="vegetables">Vegetables (ತರಕಾರಿಗಳು / सब्जियाँ)</option>
+                <option value="fruits">Fruits (ಹಣ್ಣುಗಳು / फल)</option>
+                <option value="pulses">Pulses & Oilseeds (ದ್ವಿದಳ ಧಾನ್ಯಗಳು / दालें)</option>
+                <option value="commercial">Commercial / Spices (ವಾಣಿಜ್ಯ ಬೆಳೆಗಳು / नकदी)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Variety / Grade *</label>
+              <input type="text" id="mCropVariety" class="form-control" placeholder="e.g. Hybrid Grade A, Organic Raw" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Listing Status</label>
+              <select id="mCropStatus" class="form-control">
+                <option value="available" data-i18n="status_available">Available for Sale</option>
+                <option value="negotiation" data-i18n="status_negotiation">Under Negotiation</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Total Quantity *</label>
+              <input type="number" id="mCropQuantity" class="form-control" placeholder="e.g. 50" min="1" step="any" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_unit">Unit of Quantity *</label>
+              <select id="mCropUnit" class="form-control" required>
+                <option value="Quintal">Quintals (ಕ್ವಿಂಟಾಲ್ / क्विंटल = 100 kg)</option>
+                <option value="kg">Kilograms (ಕೆಜಿ / किलोग्राम)</option>
+                <option value="Tonne">Tonnes (ಟನ್ / टन = 1000 kg)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Asking Price per Selected Unit (in ₹) *</label>
+              <input type="number" id="mCropPrice" class="form-control" placeholder="e.g. 2800" min="1" step="any" required>
+              <small style="color: var(--color-text-muted); font-size: 0.78rem;">Enter your fair asking price. Do not invent unrealistic prices.</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_harvest_date">Harvest / Availability Date *</label>
+              <input type="date" id="mCropHarvestDate" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Village / Town *</label>
+              <input type="text" id="mCropVillage" class="form-control" placeholder="e.g. Maddur, Nagamangala" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">District *</label>
+              <select id="mCropDistrict" class="form-control" required>
+                <option value="Mandya">Mandya</option>
+                <option value="Kolar">Kolar</option>
+                <option value="Shimoga">Shimoga</option>
+                <option value="Bangalore Rural">Bangalore Rural</option>
+                <option value="Hassan">Hassan</option>
+                <option value="Davanagere">Davanagere</option>
+                <option value="Kalaburagi">Kalaburagi</option>
+                <option value="Belagavi">Belagavi</option>
+                <option value="Mysuru">Mysuru</option>
+                <option value="Tumkur">Tumkur</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="form_quality_desc">Crop Quality & Description *</label>
+            <textarea id="mCropQuality" class="form-control" rows="3" placeholder="Describe grain moisture, organic status, sorting, color, packaging type, etc." required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Farmer / Seller Name *</label>
+              <input type="text" id="mCropFarmerName" class="form-control" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contact Mobile Number *</label>
+              <input type="tel" id="mCropFarmerPhone" class="form-control" placeholder="10-digit mobile number" required>
+              <small style="color: var(--color-text-muted); font-size: 0.78rem;">Phone is securely kept and only shown to confirmed enquiries.</small>
+            </div>
+          </div>
+
+          <!-- Photo Upload (Optional) -->
+          <div class="form-group">
+            <label class="form-label" data-i18n="form_photo_upload">Upload Crop Photo (Optional)</label>
+            <div class="image-upload-dropzone" onclick="document.getElementById('mCropPhotoFile').click()">
+              <input type="file" id="mCropPhotoFile" accept="image/*" style="display: none;" onchange="handleMarketplaceImageUpload(event)">
+              <div style="font-size: 1.8rem; margin-bottom: 4px;">📷</div>
+              <p style="font-weight: 700; color: var(--color-forest); font-size: 0.92rem;">Click to select a photo from your phone or computer</p>
+              <p style="color: var(--color-text-muted); font-size: 0.78rem;">JPG, PNG up to 3MB • Handled locally in your browser</p>
+              <img id="mCropPhotoPreview" class="image-preview-thumb" alt="Crop Preview">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="submit" class="btn-primary" style="flex: 2;">
+              <span>🌾</span> Publish Crop Listing
+            </button>
+            <button type="button" class="btn-filter-reset" style="flex: 1;" onclick="switchMarketplaceTab('browse')">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 3: MY ENQUIRIES & BIDS -->
+    <div id="mTabEnquiriesContent" style="display: none;">
+      <div class="enquiries-panel">
+        <div class="enquiries-notice-banner">
+          <strong>ℹ️ Important Workflow Notice:</strong> <span data-i18n="enquiries_disclaimer">An enquiry is an expression of interest and price negotiation. It is not a confirmed sale until you and the buyer inspect goods and finalize mutually agreed delivery and payment terms.</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h3 style="color: var(--color-forest); font-size: 1.35rem; font-weight: 800;" data-i18n="enquiries_heading">Enquiries Received on Your Crops</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Review offers from commercial buyers, mills, and retail partners.</p>
+          </div>
+          <span class="badge-pill" id="enquiryStatusSummaryBadge">0 Total Offers</span>
+        </div>
+
+        <div id="marketplaceEnquiriesListContainer">
+          <!-- Dynamically populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: VERIFIED BUYERS DIRECTORY -->
+    <div id="mTabBuyersContent" style="display: none;">
+      <div style="background: #FFFFFF; border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);">
+        <div style="margin-bottom: 20px;">
+          <h3 style="color: var(--color-forest); font-size: 1.35rem; font-weight: 800;" data-i18n="buyers_modal_title">🤝 Verified Agricultural Buyers & FPOs</h3>
+          <p style="font-size: 0.88rem; color: var(--color-text-muted);" data-i18n="buyers_modal_sub">Direct contact with licensed buyers, retail chains, and processing units.</p>
+        </div>
+
+        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px;">
+          <button class="prompt-chip" onclick="filterBuyersDirectory('all')" data-i18n="filter_all">All Crops</button>
+          <button class="prompt-chip" onclick="filterBuyersDirectory('grains')" data-i18n="filter_grains">Grains & Cereals</button>
+          <button class="prompt-chip" onclick="filterBuyersDirectory('vegetables')" data-i18n="filter_vegetables">Vegetables & Fruits</button>
+          <button class="prompt-chip" onclick="filterBuyersDirectory('pulses')" data-i18n="filter_pulses">Pulses & Oilseeds</button>
+        </div>
+
+        <div id="marketplaceBuyersListContainer">
+          <!-- Populated from buyers list -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: Rent Machinery Marketplace -->
+  <div class="modal-overlay" id="machineryModal" onclick="closeModalOnBackdrop(event, 'machineryModal')">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="machinery_modal_title">🚜 Agricultural Machinery Rental Marketplace</h3>
+          <p data-i18n="machinery_modal_sub">Book verified machinery nearby or list your own equipment for rent. Zero middlemen, transparent hourly, daily, or acre rates.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('machineryModal')">✕</button>
+      </div>
+
+      <!-- Machinery Navigation Tabs -->
+      <div class="mach-tab-nav">
+        <button type="button" class="mach-tab-btn active" id="machTabBrowseBtn" onclick="switchMachineryTab('browse')">
+          <span>🚜</span> <span data-i18n="mach_tab_browse">Browse Machinery</span>
+        </button>
+        <button type="button" class="mach-tab-btn" id="machTabListBtn" onclick="switchMachineryTab('list')">
+          <span>➕</span> <span data-i18n="mach_tab_list">List Your Machinery</span>
+        </button>
+        <button type="button" class="mach-tab-btn" id="machTabBookingsBtn" onclick="switchMachineryTab('bookings')">
+          <span>📋</span> <span data-i18n="mach_tab_bookings">My Bookings & Requests</span>
+          <span id="machBookingsBadge" style="background: var(--color-leaf); color: #fff; font-size: 0.72rem; padding: 1px 7px; border-radius: 10px; margin-left: 4px;">0</span>
+        </button>
+        <button type="button" class="mach-tab-btn" id="machTabOwnerBtn" onclick="switchMachineryTab('owner')">
+          <span>⚙️</span> <span data-i18n="mach_tab_owner">My Equipment Listings</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 10px;">
+        <!-- TAB 1: BROWSE MACHINERY -->
+        <div id="machTabBrowse" class="mach-tab-pane">
+          <!-- Filters & Search -->
+          <div class="mach-filter-row">
+            <div>
+              <input type="text" id="machSearchInput" class="form-control" placeholder="Search tractors, harvesters, rotavators, location..." oninput="handleMachineryFilterChange()" data-i18n="mach_search_placeholder">
+            </div>
+            <div>
+              <select id="machTypeFilter" class="form-control" onchange="handleMachineryFilterChange()">
+                <option value="all" data-i18n="mach_filter_type_all">All Equipment Types</option>
+                <option value="tractor" data-i18n="mach_type_tractor">Tractors</option>
+                <option value="harvester" data-i18n="mach_type_harvester">Combine Harvesters</option>
+                <option value="rotavator" data-i18n="mach_type_rotavator">Rotavators</option>
+                <option value="seed_drill" data-i18n="mach_type_seed_drill">Seed Drills</option>
+                <option value="cultivator" data-i18n="mach_type_cultivator">Cultivators</option>
+                <option value="sprayer" data-i18n="mach_type_sprayer">Power Sprayers</option>
+                <option value="other" data-i18n="mach_type_other">Other Machinery</option>
+              </select>
+            </div>
+            <div>
+              <select id="machDistrictFilter" class="form-control" onchange="handleMachineryFilterChange()">
+                <option value="all">All Districts</option>
+                <option value="Mandya">Mandya</option>
+                <option value="Kolar">Kolar</option>
+                <option value="Davanagere">Davanagere</option>
+                <option value="Shimoga">Shimoga</option>
+                <option value="Belagavi">Belagavi</option>
+                <option value="Mysore">Mysore</option>
+                <option value="Tumkur">Tumkur</option>
+                <option value="Hassan">Hassan</option>
+                <option value="Other">Other Districts</option>
+              </select>
+            </div>
+            <div>
+              <select id="machUnitFilter" class="form-control" onchange="handleMachineryFilterChange()">
+                <option value="all" data-i18n="mach_unit_all">All Pricing Units</option>
+                <option value="hour" data-i18n="mach_unit_hour">Per Hour</option>
+                <option value="day" data-i18n="mach_unit_day">Per Day</option>
+                <option value="acre" data-i18n="mach_unit_acre">Per Acre</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Results counter & active count -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <span id="machResultsCount" style="font-size: 0.88rem; font-weight: 700; color: var(--color-forest);">Showing verified equipment</span>
+            <span style="font-size: 0.78rem; color: var(--color-forest-dark); background: var(--color-gold-soft); padding: 3px 8px; border-radius: var(--radius-full); font-weight: 600;">✨ Zero Middleman • Farmer Direct</span>
+          </div>
+
+          <!-- Equipment Grid -->
+          <div id="machineryCatalogGrid" class="equipment-grid-enhanced">
+            <!-- Dynamically populated from localStorage & presets -->
+          </div>
+        </div>
+
+        <!-- TAB 2: LIST YOUR MACHINERY -->
+        <div id="machTabList" class="mach-tab-pane" style="display: none;">
+          <div class="expense-group-box">
+            <h4 style="color: var(--color-forest); font-weight: 800; font-size: 1.1rem; margin-bottom: 8px;">➕ Publish Your Equipment for Rent</h4>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 16px;">Earn extra income by renting your idle tractor, tiller, or harvester to trusted neighboring farmers.</p>
+
+            <form id="listMachineryForm" onsubmit="handleNewMachineryListing(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Equipment Name & Model *</label>
+                  <input type="text" id="machNewName" class="form-control" placeholder="e.g. John Deere 5050D 4WD Tractor" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Equipment Type *</label>
+                  <select id="machNewType" class="form-control" required>
+                    <option value="tractor">Tractor (ಟ್ರಾಕ್ಟರ್)</option>
+                    <option value="harvester">Combine Harvester (ಕಟಾವು ಯಂತ್ರ)</option>
+                    <option value="rotavator">Rotavator (ರೋಟಾವೇಟರ್)</option>
+                    <option value="seed_drill">Seed Drill (ಬೀಜ ಬಿತ್ತುವ ಯಂತ್ರ)</option>
+                    <option value="cultivator">Cultivator / Plough (ಕಲ್ಟಿವೇಟರ್)</option>
+                    <option value="sprayer">Boom / Orchard Sprayer (ಸಿಂಪಡಕ)</option>
+                    <option value="other">Other Agricultural Machinery</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Rental Price Rate (₹) *</label>
+                  <input type="number" id="machNewRate" class="form-control" placeholder="e.g. 850" min="1" step="any" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Pricing Unit *</label>
+                  <select id="machNewUnit" class="form-control" required>
+                    <option value="hour">Per Hour (ಗಂಟೆಗೆ)</option>
+                    <option value="day">Per Day (ದಿನಕ್ಕೆ)</option>
+                    <option value="acre">Per Acre (ಎಕರೆಗೆ)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Equipment Condition *</label>
+                  <select id="machNewCondition" class="form-control" required>
+                    <option value="Excellent">Excellent (New / Fully Serviced)</option>
+                    <option value="Very Good" selected>Very Good (Ready for Field Work)</option>
+                    <option value="Good">Good (Working Condition)</option>
+                    <option value="Fair">Fair (Standard Working)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Driver / Operator Included? *</label>
+                  <select id="machNewDriver" class="form-control" required>
+                    <option value="Yes" selected>Yes, Experienced Driver Included</option>
+                    <option value="No">No, Machine Only (Fuel & Operator by Renter)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Village / Town *</label>
+                  <input type="text" id="machNewVillage" class="form-control" placeholder="e.g. Maddur / Pandavapura" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">District *</label>
+                  <select id="machNewDistrict" class="form-control" required>
+                    <option value="Mandya">Mandya</option>
+                    <option value="Kolar">Kolar</option>
+                    <option value="Davanagere">Davanagere</option>
+                    <option value="Shimoga">Shimoga</option>
+                    <option value="Belagavi">Belagavi</option>
+                    <option value="Mysore">Mysore</option>
+                    <option value="Tumkur">Tumkur</option>
+                    <option value="Hassan">Hassan</option>
+                    <option value="Other">Other District</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Specifications & Description *</label>
+                <textarea id="machNewDesc" class="form-control" rows="2" placeholder="e.g. 50 HP power, includes 9-tyne cultivator and rotavator attachment. Available for paddy and sugarcane land preparation." required></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Available From Date *</label>
+                  <input type="date" id="machNewAvailableDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Upload Equipment Photo (Optional)</label>
+                  <input type="file" id="machNewPhotoInput" class="form-control" accept="image/*" onchange="handleMachineryPhotoUpload(event)">
+                </div>
+              </div>
+
+              <div id="machPhotoPreview" style="display: none; margin-bottom: 14px;">
+                <img id="machPhotoPreviewImg" src="" alt="Preview" style="max-height: 140px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Your Name / Business Name *</label>
+                  <input type="text" id="machNewOwnerName" class="form-control" placeholder="e.g. Ramegowda Agro Rentals" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Owner Contact Mobile Number *</label>
+                  <input type="tel" id="machNewOwnerPhone" class="form-control" placeholder="10-digit mobile number" maxlength="10" required>
+                  <small style="color: var(--color-text-muted); font-size: 0.78rem;">🔒 Kept private until a rental booking is accepted.</small>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;" data-i18n="btn_list_machinery">
+                🚀 Publish Equipment Listing
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB 3: MY BOOKINGS & REQUESTS -->
+        <div id="machTabBookings" class="mach-tab-pane" style="display: none;">
+          <!-- Subtab toggles -->
+          <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-marketplace-primary" id="subtabFarmerBookingsBtn" style="padding: 6px 14px; font-size: 0.85rem;" onclick="switchBookingSubtab('outgoing')">
+              📤 My Outgoing Bookings (<span id="countOutgoingBookings">0</span>)
+            </button>
+            <button type="button" class="btn-marketplace-secondary" id="subtabOwnerBookingsBtn" style="padding: 6px 14px; font-size: 0.85rem;" onclick="switchBookingSubtab('incoming')">
+              📥 Incoming Requests for My Equipment (<span id="countIncomingBookings">0</span>)
+            </button>
+          </div>
+
+          <div id="machineryBookingsListContainer">
+            <!-- Dynamically populated bookings -->
+          </div>
+        </div>
+
+        <!-- TAB 4: MY EQUIPMENT (OWNER PANEL) -->
+        <div id="machTabOwner" class="mach-tab-pane" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <h4 style="color: var(--color-forest); font-weight: 800; font-size: 1.05rem; margin: 0;">⚙️ Manage Your Equipment Listings</h4>
+              <p style="font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2px;">Toggle availability status, edit rental rates, or update equipment condition.</p>
+            </div>
+            <button type="button" class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="switchMachineryTab('list')">
+              ➕ Add Equipment
+            </button>
+          </div>
+
+          <div id="myEquipmentListingsContainer">
+            <!-- Dynamically populated equipment owned by current user -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Equipment Booking Request Dialog -->
+  <div class="modal-overlay" id="machineryBookingModal" onclick="closeModalOnBackdrop(event, 'machineryBookingModal')">
+    <div class="modal-content" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="mach_booking_modal_title">🚜 Request Machinery Rental</h3>
+          <p data-i18n="mach_booking_modal_sub">Direct booking with owner. Transparent pricing and instant availability check.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('machineryBookingModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Target equipment summary card -->
+        <div id="bookingTargetEquipmentBanner" style="background: var(--color-ivory-light); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <!-- Injected via openBookingModal -->
+        </div>
+
+        <form id="machineryBookingDialogForm" onsubmit="handleConfirmBookingRequest(event)">
+          <input type="hidden" id="bookingEquipmentId">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Date *</label>
+              <input type="date" id="bookingStartDate" class="form-control" required onchange="calculateBookingCostRealtime()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date *</label>
+              <input type="date" id="bookingEndDate" class="form-control" required onchange="calculateBookingCostRealtime()">
+            </div>
+          </div>
+
+          <!-- Unit specific dynamic input -->
+          <div id="bookingHourlyInputGroup" class="form-group" style="display: none;">
+            <label class="form-label">Estimated Operating Hours Needed *</label>
+            <input type="number" id="bookingHoursNeeded" class="form-control" value="6" min="1" step="0.5" oninput="calculateBookingCostRealtime()">
+            <small style="color: var(--color-text-muted); font-size: 0.8rem;">Enter hours needed for your farm work (KrishiSetu AI does not assume a fixed workday).</small>
+          </div>
+
+          <div id="bookingAcreageInputGroup" class="form-group" style="display: none;">
+            <label class="form-label">Farm Land Area (in Acres) *</label>
+            <input type="number" id="bookingAcresNeeded" class="form-control" value="3" min="0.25" step="0.25" oninput="calculateBookingCostRealtime()">
+            <small style="color: var(--color-text-muted); font-size: 0.8rem;">Enter total acres to be ploughed, harvested, or sprayed.</small>
+          </div>
+
+          <!-- Overlap / Conflict Alert Banner -->
+          <div id="bookingOverlapAlert" class="booking-warning-box">
+            <!-- Injected when overlapping accepted booking is detected -->
+          </div>
+
+          <!-- Transparent Cost Breakdown Card -->
+          <div class="cost-breakdown-card">
+            <div style="font-weight: 800; color: var(--color-forest); font-size: 0.95rem; margin-bottom: 8px;">
+              📊 Transparent Cost Estimate
+            </div>
+            <div class="cost-row">
+              <span>Rental Rate:</span>
+              <strong id="costCalcRate">₹0</strong>
+            </div>
+            <div class="cost-row">
+              <span id="costCalcDurationLabel">Duration / Quantity:</span>
+              <strong id="costCalcDurationValue">0</strong>
+            </div>
+            <div class="cost-total-row">
+              <span>Estimated Total:</span>
+              <span id="costCalcTotal" style="color: var(--color-leaf);">₹0</span>
+            </div>
+            <div style="font-size: 0.76rem; color: var(--color-text-muted); margin-top: 8px; font-style: italic;">
+              ⚠️ Note: This is an operational estimate based on your selected dates/units. It is not an advance payment receipt or guaranteed final bill. Final charges are settled directly with the owner upon completion.
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name (Farmer) *</label>
+              <input type="text" id="bookingRenterName" class="form-control" placeholder="e.g. Manjunath Gowda" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Mobile Number *</label>
+              <input type="tel" id="bookingRenterPhone" class="form-control" placeholder="10-digit mobile number" maxlength="10" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Farm / Delivery Location (Village & Landmark) *</label>
+            <input type="text" id="bookingRenterVillage" class="form-control" placeholder="e.g. Halagur village, near canal bridge" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Note to Equipment Owner (Optional)</label>
+            <textarea id="bookingRenterMessage" class="form-control" rows="2" placeholder="e.g. Please bring rotavator blades suitable for wet paddy field. Road is accessible for tractor."></textarea>
+          </div>
+
+          <button type="submit" id="bookingSubmitBtn" class="btn-primary" style="width: 100%;" data-i18n="btn_submit_booking">
+            📤 Send Rental Request to Owner
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Machinery Dialog -->
+  <div class="modal-overlay" id="editMachineryModal" onclick="closeModalOnBackdrop(event, 'editMachineryModal')">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3>✏️ Edit Equipment Listing</h3>
+          <p>Update rental rate, availability status, or description.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('editMachineryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="editMachineryForm" onsubmit="handleSaveEditedMachinery(event)">
+          <input type="hidden" id="editMachId">
+
+          <div class="form-group">
+            <label class="form-label">Equipment Name</label>
+            <input type="text" id="editMachName" class="form-control" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Rental Price Rate (₹)</label>
+              <input type="number" id="editMachRate" class="form-control" min="1" step="any" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pricing Unit</label>
+              <select id="editMachUnit" class="form-control" required>
+                <option value="hour">Per Hour</option>
+                <option value="day">Per Day</option>
+                <option value="acre">Per Acre</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Availability Status</label>
+              <select id="editMachStatus" class="form-control" required>
+                <option value="available">Available Now</option>
+                <option value="booked">Booked / Unavailable</option>
+                <option value="maintenance">In Maintenance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Condition</label>
+              <select id="editMachCondition" class="form-control" required>
+                <option value="Excellent">Excellent</option>
+                <option value="Very Good">Very Good</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description & Implements</label>
+            <textarea id="editMachDesc" class="form-control" rows="2" required></textarea>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 14px;">
+            <button type="submit" class="btn-primary" style="flex: 1;">💾 Save Changes</button>
+            <button type="button" class="btn-outline" style="flex: 1;" onclick="closeModal('editMachineryModal')">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Sell Crops -->
+  <div class="modal-overlay" id="sellCropModal" onclick="closeModalOnBackdrop(event, 'sellCropModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="sell_modal_title">🌾 Sell Your Crop Direct</h3>
+          <p data-i18n="sell_modal_sub">Fill details below to show your harvest to buyers across Karnataka & neighboring mandis.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('sellCropModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="cropListingForm" onsubmit="handleCropListing(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_crop_name">Crop Name</label>
+              <input type="text" id="cropName" class="form-control" placeholder="e.g. Tomato, Ragi, Paddy" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_crop_variety">Variety / Grade</label>
+              <input type="text" id="cropVariety" class="form-control" placeholder="e.g. Sona Masoori, Hybrid A" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_quantity">Total Quantity (in Quintals)</label>
+              <input type="number" id="cropQuantity" class="form-control" placeholder="e.g. 50" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_expected_price">Expected Price per Quintal (₹)</label>
+              <input type="number" id="cropPrice" class="form-control" placeholder="e.g. 2600" min="100" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_location">Village / District</label>
+              <input type="text" id="cropLocation" class="form-control" placeholder="e.g. Malavalli, Mandya" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="form_phone">Contact Mobile Number</label>
+              <input type="tel" id="cropPhone" class="form-control" placeholder="10-digit mobile number" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" data-i18n="btn_submit_crop">Post Crop Listing</button>
+        </form>
+
+        <div style="margin-top: 24px;">
+          <h4 style="color: var(--color-forest); margin-bottom: 12px; font-weight: 700;" data-i18n="recent_listings_title">Active Produce Listings in Your Area</h4>
+          <div id="cropListingsContainer">
+            <!-- Dynamically populated from localStorage & defaults -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Calculate Profit & Buyer Offer Comparison -->
+  <div class="modal-overlay" id="calculatorModal" onclick="closeModalOnBackdrop(event, 'calculatorModal')">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="calc_modal_title">💰 Profit Calculator & Buyer Offer Comparison</h3>
+          <p data-i18n="calc_modal_sub">Calculate true production costs, net profit, and compare multiple buyer bids with estimated deductions.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('calculatorModal')">✕</button>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="calc-tab-nav" style="padding: 0 24px; margin-top: 16px;">
+        <button type="button" class="calc-tab-btn active" id="calcTabProfitBtn" onclick="switchCalcTab('profit')">
+          <span>📊</span> <span data-i18n="tab_profit_calc">Crop Profit & Expenses</span>
+        </button>
+        <button type="button" class="calc-tab-btn" id="calcTabOffersBtn" onclick="switchCalcTab('offers')">
+          <span>🤝</span> <span data-i18n="tab_compare_offers">Compare Buyer Offers</span>
+          <span id="buyerOffersCountBadge" style="background: var(--color-leaf); color: #fff; font-size: 0.72rem; padding: 1px 7px; border-radius: 10px; margin-left: 4px;">0</span>
+        </button>
+        <button type="button" class="calc-tab-btn" id="calcTabSavedBtn" onclick="switchCalcTab('saved')">
+          <span>📁</span> <span data-i18n="tab_saved_calculations">Saved Scenarios</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 10px;">
+        <!-- TAB 1: PROFIT CALCULATOR -->
+        <div id="calcTabProfit" class="calc-tab-pane">
+          <!-- Quick presets bar -->
+          <div style="margin-bottom: 16px; background: #FFFDF8; border: 1px solid var(--color-gold-soft); border-radius: var(--radius-sm); padding: 10px 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-forest);">⚡ Quick Preset Estimates:</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="importFromListingSelect" style="font-size: 0.8rem; color: var(--color-text-muted); font-weight: 600;">Or import from:</label>
+                <select id="importFromListingSelect" class="form-control" style="width: auto; padding: 4px 10px; font-size: 0.82rem;" onchange="importListingIntoCalculator(this.value)">
+                  <option value="">-- Active Marketplace Crop --</option>
+                </select>
+              </div>
+            </div>
+            <div class="quick-crop-presets" style="margin-bottom: 0;">
+              <button type="button" class="preset-chip-btn" onclick="applyCropPreset('paddy')">🌾 Paddy / Rice</button>
+              <button type="button" class="preset-chip-btn" onclick="applyCropPreset('tomato')">🍅 Tomato</button>
+              <button type="button" class="preset-chip-btn" onclick="applyCropPreset('ragi')">🌿 Ragi (Finger Millet)</button>
+              <button type="button" class="preset-chip-btn" onclick="applyCropPreset('maize')">🌽 Hybrid Maize</button>
+              <button type="button" class="preset-chip-btn" onclick="applyCropPreset('sugarcane')">🎋 Sugarcane</button>
+            </div>
+          </div>
+
+          <form id="profitCalcForm" onsubmit="event.preventDefault(); calculateProfitRealtime();">
+            <!-- Crop & Revenue Details -->
+            <div class="expense-group-box">
+              <div class="expense-category-header">
+                <span data-i18n="calc_revenue_title">🌾 Harvest & Selling Revenue</span>
+                <span style="font-size: 0.8rem; font-weight: normal; color: var(--color-text-muted);">Step 1: Yield & Selling Price</span>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_crop_type">Crop Name</label>
+                  <input type="text" id="calcCropName" class="form-control" value="Sona Masoori Paddy" placeholder="e.g. Tomato, Paddy, Ragi" required oninput="calculateProfitRealtime()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_harvested_qty">Harvested Quantity</label>
+                  <input type="number" id="calcHarvestedQty" class="form-control" value="80" min="0.01" step="any" required oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="form_unit">Quantity Unit</label>
+                  <select id="calcQuantityUnit" class="form-control" onchange="calculateProfitRealtime()">
+                    <option value="Quintal" selected>Quintal (100 kg)</option>
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="Tonne">Tonne (1,000 kg)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_selling_price">Selling Price per Unit (₹)</label>
+                  <input type="number" id="calcSellingPrice" class="form-control" value="2850" min="0" step="any" required oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Granular Expenses (8 Categories) -->
+            <div class="expense-group-box">
+              <div class="expense-category-header">
+                <span data-i18n="calc_expenses_title">🌱 Itemized Cultivation Expenses (₹)</span>
+                <span style="font-size: 0.8rem; font-weight: normal; color: var(--color-text-muted);">Step 2: Enter cost incurred (zero allowed)</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_seed_cost">Seed Costs (₹)</label>
+                  <input type="number" id="calcCostSeeds" class="form-control" value="13000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_fertilizer_cost">Fertilizer & Pesticide Costs (₹)</label>
+                  <input type="number" id="calcCostFertilizer" class="form-control" value="18000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_labor_cost">Labour Costs (₹)</label>
+                  <input type="number" id="calcCostLabor" class="form-control" value="24000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_irrigation_cost">Irrigation & Water Costs (₹)</label>
+                  <input type="number" id="calcCostIrrigation" class="form-control" value="5000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_machinery_cost">Machinery Rental / Fuel (₹)</label>
+                  <input type="number" id="calcCostMachinery" class="form-control" value="14000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_transport_cost">Transport Costs (₹)</label>
+                  <input type="number" id="calcCostTransport" class="form-control" value="4500" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_packaging_cost">Packaging Costs (₹)</label>
+                  <input type="number" id="calcCostPackaging" class="form-control" value="2500" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="calc_other_cost">Other Expenses (₹)</label>
+                  <input type="number" id="calcCostOther" class="form-control" value="3000" min="0" step="any" oninput="calculateProfitRealtime()">
+                </div>
+              </div>
+            </div>
+
+            <div id="calcValidationAlert" style="display: none; padding: 10px 14px; background: #FDEDEC; border: 1px solid #E74C3C; border-radius: var(--radius-sm); color: #C0392B; font-size: 0.88rem; margin-bottom: 14px;"></div>
+
+            <!-- Calculation Results Box (Always Active with Live Updates) -->
+            <div class="calc-results-box active" id="calcResultsBox" style="margin-top: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <h4 style="color: var(--color-forest); font-weight: 800; font-size: 1.15rem; margin: 0;">📊 Real-Time Financial Results</h4>
+                <span id="calcCropSummaryBadge" style="background: var(--color-gold-soft); color: var(--color-forest); font-size: 0.8rem; font-weight: 700; padding: 4px 10px; border-radius: var(--radius-full);">80 Quintal • Sona Masoori Paddy</span>
+              </div>
+
+              <div class="calc-metric-grid">
+                <div class="metric-card">
+                  <span class="metric-label" data-i18n="calc_total_revenue">Total Revenue</span>
+                  <div class="metric-value highlight" id="resGrossRevenue">₹2,28,000</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Qty × Price</div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label" data-i18n="calc_total_expenses">Total Expenses</span>
+                  <div class="metric-value" id="resTotalCost">₹84,000</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Sum of 8 expenses</div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label" data-i18n="calc_net_profit">Net Profit / Loss</span>
+                  <div class="metric-value positive" id="resNetProfit">₹1,44,000</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Revenue − Expenses</div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label" data-i18n="calc_profit_per_unit">Profit per Unit</span>
+                  <div class="metric-value positive" id="resProfitPerUnit">₹1,800/Qtl</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Net profit ÷ Qty</div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label" data-i18n="calc_profit_margin">Profit Margin</span>
+                  <div class="metric-value positive" id="resProfitMargin">63.2%</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">(Net / Revenue) × 100</div>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-label">Break-Even Selling Price</span>
+                  <div class="metric-value" id="resBreakEvenPrice">₹1,050/Qtl</div>
+                  <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">Minimum cost/unit</div>
+                </div>
+              </div>
+
+              <!-- Profit / Loss Visual Banner -->
+              <div id="profitBanner" class="profit-summary-banner profit-banner-gain">
+                <div>
+                  <strong id="profitBannerTitle">🎉 Estimated Net Profit: ₹1,44,000</strong>
+                  <div id="profitBannerSub" style="font-size: 0.85rem; margin-top: 3px;">You are earning approximately ₹1,800 per Quintal above total cultivation costs.</div>
+                </div>
+                <button type="button" class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="switchCalcTab('offers')">Compare Buyer Offers ➜</button>
+              </div>
+
+              <div id="calcAdviceBox" style="margin-top: 14px; padding: 12px 14px; background: #FFFFFF; border-radius: var(--radius-sm); font-size: 0.88rem; color: var(--color-forest); border-left: 4px solid var(--color-leaf);">
+                💡 <strong>Farmer Advisory:</strong> These estimates are calculated strictly from your inputs. Always confirm actual weighing slip weights and local market transport conditions.
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                <button type="button" class="btn-primary" style="flex: 1;" onclick="saveCurrentScenario()" data-i18n="btn_save_scenario">💾 Save Scenario</button>
+                <button type="button" class="btn-outline" style="flex: 1;" onclick="resetCalculatorForm()" data-i18n="btn_reset_calc">↺ Reset Calculator</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB 2: BUYER OFFER COMPARISON -->
+        <div id="calcTabOffers" class="calc-tab-pane" style="display: none;">
+          <!-- Baseline summary banner -->
+          <div style="background: var(--color-forest); color: #FFFFFF; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <div style="font-size: 0.8rem; opacity: 0.85;">Current Baseline Crop:</div>
+              <strong id="offerBaselineCrop" style="font-size: 1.1rem; color: var(--color-gold);">Sona Masoori Paddy (80 Quintals)</strong>
+              <div style="font-size: 0.82rem; margin-top: 2px;">Asking Price: <span id="offerBaselinePrice">₹2,850/Quintal</span> • Cultivation Cost: <span id="offerBaselineCost">₹1,050/Quintal</span></div>
+            </div>
+            <button type="button" class="btn-secondary" style="font-size: 0.82rem; padding: 6px 14px;" onclick="importOffersFromEnquiries()">
+              📥 Import from Marketplace Enquiries
+            </button>
+          </div>
+
+          <!-- Add New Buyer Offer Form -->
+          <div class="expense-group-box">
+            <h4 style="color: var(--color-forest); margin-bottom: 12px; font-weight: 800; font-size: 1rem;">➕ Add Buyer Offer to Compare</h4>
+            <form id="addOfferForm" onsubmit="handleAddNewBuyerOffer(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="offer_buyer_name">Buyer / Business Name</label>
+                  <input type="text" id="offerBuyerName" class="form-control" placeholder="e.g. Sri Lakshmi Rice Mill" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="offer_price">Offered Price (₹ per unit)</label>
+                  <input type="number" id="offerPrice" class="form-control" placeholder="e.g. 2800" min="0" step="any" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="offer_qty">Quantity to Purchase</label>
+                  <input type="number" id="offerQty" class="form-control" placeholder="e.g. 80" min="0.01" step="any" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="offer_transport_cost">Estimated Transport Cost (₹)</label>
+                  <input type="number" id="offerTransport" class="form-control" value="0" min="0" step="any" placeholder="0 if buyer picks up from farm">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="offer_other_cost">Other Selling Costs / Commission (₹)</label>
+                  <input type="number" id="offerOtherCost" class="form-control" value="0" min="0" step="any" placeholder="e.g. Mandi fee, unloading, sack charges">
+                </div>
+                <div class="form-group" style="display: flex; align-items: flex-end;">
+                  <button type="submit" class="btn-primary" style="width: 100%;" data-i18n="btn_add_offer">
+                    ➕ Add Offer to Compare
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Offers List Cards -->
+          <div style="margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 style="color: var(--color-forest); font-weight: 800; font-size: 1.05rem; margin: 0;">Buyer Offers Analysis</h4>
+              <span id="offersCountLabel" style="font-size: 0.85rem; color: var(--color-text-muted);">Comparing 0 offers</span>
+            </div>
+
+            <div id="offersListContainer">
+              <!-- Dynamically populated offer comparison cards -->
+            </div>
+          </div>
+
+          <!-- Comparison Table -->
+          <div class="comparison-table-wrapper" id="offersTableWrapper" style="display: none;">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Buyer Name</th>
+                  <th>Offered Price</th>
+                  <th>Quantity</th>
+                  <th>Gross Value</th>
+                  <th>Deductions</th>
+                  <th>Estimated Net Proceeds</th>
+                  <th>Effective Net / Unit</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="offersTableBody">
+                <!-- Dynamically populated table rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 16px; padding: 12px 16px; background: #FFFDF8; border: 1px solid var(--color-gold); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-forest);">
+            <strong>📌 Calculation Assumptions:</strong>
+            <ul style="margin: 6px 0 0 18px; padding: 0;">
+              <li>Gross Offer Value = Offered Price × Quantity Purchased.</li>
+              <li>Estimated Net Proceeds = Gross Offer Value − (Transport Costs + Other Selling Costs).</li>
+              <li>Effective Net Price / Unit = Estimated Net Proceeds ÷ Quantity Purchased.</li>
+              <li>KrishiSetu AI highlights the offer with the highest estimated net proceeds based on your input costs. It does not guarantee payment or buyer execution.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB 3: SAVED SCENARIOS -->
+        <div id="calcTabSaved" class="calc-tab-pane" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--color-forest); font-weight: 800; font-size: 1.1rem; margin: 0;">📁 Saved Profit Calculations</h4>
+            <button type="button" class="btn-outline" style="font-size: 0.82rem; padding: 5px 12px;" onclick="clearAllSavedScenarios()">Clear All</button>
+          </div>
+
+          <div id="savedScenariosContainer">
+            <!-- Dynamically populated saved scenarios -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Find Buyers -->
+  <div class="modal-overlay" id="buyersModal" onclick="closeModalOnBackdrop(event, 'buyersModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="buyers_modal_title">🤝 Verified Agricultural Buyers & FPOs</h3>
+          <p data-i18n="buyers_modal_sub">Direct contact with licensed buyers, retail chains, and processing units.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('buyersModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px;">
+          <button class="prompt-chip" onclick="filterBuyers('all')" data-i18n="filter_all">All Crops</button>
+          <button class="prompt-chip" onclick="filterBuyers('grains')" data-i18n="filter_grains">Grains & Cereals</button>
+          <button class="prompt-chip" onclick="filterBuyers('vegetables')" data-i18n="filter_vegetables">Vegetables & Fruits</button>
+          <button class="prompt-chip" onclick="filterBuyers('pulses')" data-i18n="filter_pulses">Pulses & Oilseeds</button>
+        </div>
+
+        <div id="buyersListContainer">
+          <!-- Buyer Cards -->
+          <div class="buyer-card" data-category="grains">
+            <div class="buyer-info">
+              <h4>Kaveri Farmers Producer Co. (FPO)</h4>
+              <p>📍 Mandya, Karnataka • Distance: ~12 km</p>
+              <div class="buyer-tags">
+                <span class="buyer-tag">Paddy</span>
+                <span class="buyer-tag">Ragi</span>
+                <span class="buyer-tag">Maize</span>
+              </div>
+            </div>
+            <button class="btn-gold" onclick="contactBuyer('Kaveri FPO', '+91 98450 12345')">📞 Call Buyer</button>
+          </div>
+
+          <div class="buyer-card" data-category="vegetables">
+            <div class="buyer-info">
+              <h4>GreenFresh Aggregators & Retail</h4>
+              <p>📍 Kolar & Hoskote APMC • Distance: ~24 km</p>
+              <div class="buyer-tags">
+                <span class="buyer-tag">Tomato</span>
+                <span class="buyer-tag">Chilli</span>
+                <span class="buyer-tag">Beans</span>
+              </div>
+            </div>
+            <button class="btn-gold" onclick="contactBuyer('GreenFresh Aggregators', '+91 94480 67890')">📞 Call Buyer</button>
+          </div>
+
+          <div class="buyer-card" data-category="grains">
+            <div class="buyer-info">
+              <h4>Sri Lakshmi Modern Rice Mill</h4>
+              <p>📍 Shimoga, Karnataka • Bulk Procurement</p>
+              <div class="buyer-tags">
+                <span class="buyer-tag">Sona Masoori</span>
+                <span class="buyer-tag">Jeera Rice</span>
+              </div>
+            </div>
+            <button class="btn-gold" onclick="contactBuyer('Sri Lakshmi Mill', '+91 99001 54321')">📞 Call Buyer</button>
+          </div>
+
+          <div class="buyer-card" data-category="pulses">
+            <div class="buyer-info">
+              <h4>Sahyadri Organic Pulse Processors</h4>
+              <p>📍 Hassan & Chikmagalur • Certified Organic</p>
+              <div class="buyer-tags">
+                <span class="buyer-tag">Toor Dal</span>
+                <span class="buyer-tag">Urad</span>
+                <span class="buyer-tag">Soybean</span>
+              </div>
+            </div>
+            <button class="btn-gold" onclick="contactBuyer('Sahyadri Pulses', '+91 97400 88776')">📞 Call Buyer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Voice Assistant -->
+  <div class="modal-overlay" id="voiceModal" onclick="closeModalOnBackdrop(event, 'voiceModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="voice_modal_title">🎙️ KrishiSetu AI Voice Assistant</h3>
+          <p data-i18n="voice_modal_sub">Speak in Kannada, Hindi, or English. Press the microphone to start.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('voiceModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Voice Assistant Status & Sound Wave -->
+        <div class="voice-status-bar">
+          <span class="status-tag status-ready" id="assistantStatusText" data-i18n="voice_ready">Ready to listen. Tap the microphone.</span>
+          <div class="wave-container" id="voiceWaveAnim">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+
+        <!-- Conversation History -->
+        <div class="voice-chat-box" id="voiceChatHistory">
+          <div class="chat-bubble chat-assistant">
+            <div class="bubble-header">
+              <span class="bubble-avatar">🌾</span>
+              <strong>KrishiSetu AI</strong>
+            </div>
+            <div class="bubble-content" id="assistantInitialGreeting">
+              Namaste! I am your KrishiSetu AI companion. Tap the microphone and speak your query, or pick a sample question below.
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice & Text Inputs -->
+        <div class="voice-input-row">
+          <button class="mic-btn-large mic-trigger-btn" id="micBtnLarge" onclick="window.krishiVoice.toggleListening()" title="Start Voice Input" aria-label="Microphone">
+            🎙️
+          </button>
+          <input type="text" id="voiceInputText" class="form-control" placeholder="Or type your farming question here..." onkeypress="handleVoiceEnter(event)">
+          <button class="btn-gold" onclick="submitVoiceText()" style="flex-shrink: 0;" data-i18n="voice_btn_send">Ask</button>
+        </div>
+
+        <!-- Sample Questions Chips -->
+        <div style="margin-top: 14px;">
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); font-weight: 600;" data-i18n="voice_suggested_title">Quick questions you can ask:</p>
+          <div class="quick-prompts-list">
+            <button class="prompt-chip" onclick="askQuickPrompt(this)" data-i18n="sample_q1">What is the market price of tomato today?</button>
+            <button class="prompt-chip" onclick="askQuickPrompt(this)" data-i18n="sample_q2">How can I rent a tractor?</button>
+            <button class="prompt-chip" onclick="askQuickPrompt(this)" data-i18n="sample_q3">How do I calculate profit for 2 acres of paddy?</button>
+            <button class="prompt-chip" onclick="askQuickPrompt(this)" data-i18n="sample_q4">Who are the verified buyers for ragi?</button>
+          </div>
+        </div>
+
+        <!-- Honest Technical Disclaimer -->
+        <div style="margin-top: 18px; padding: 10px 12px; background: var(--color-ivory); border-radius: var(--radius-sm); border-left: 3px solid var(--color-gold); font-size: 0.78rem; color: var(--color-text-muted);">
+          <strong>ℹ️ System Architecture Note:</strong> Currently running client-side Web Speech recognition + agricultural intent matching. In the next development phase, this voice interface connects directly to a Python backend with Gemini 2.0 Flash for multi-turn multilingual agricultural reasoning.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Crop Details View -->
+  <div class="modal-overlay" id="cropDetailModal" onclick="closeModalOnBackdrop(event, 'cropDetailModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 id="detailCropTitle">Crop Details</h3>
+          <p id="detailCropSubtitle">Verified Produce Listing</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('cropDetailModal')">✕</button>
+      </div>
+      <div class="modal-body" id="detailModalBody">
+        <!-- Dynamically rendered by renderCropDetailModalContent(crop) -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Buyer Enquiry Form -->
+  <div class="modal-overlay" id="cropEnquiryModal" onclick="closeModalOnBackdrop(event, 'cropEnquiryModal')">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="enquiry_modal_title">Direct Buyer Enquiry & Offer</h3>
+          <p id="enquiryCropHeaderSub">Submit your offer directly to the seller</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('cropEnquiryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Crop Summary Banner in Enquiry Form -->
+        <div id="enquiryCropSummaryBox" style="background: var(--color-ivory); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 18px; border: 1px solid var(--color-border);">
+          <!-- Injected via JS -->
+        </div>
+
+        <div id="enquiryErrorBanner" style="display: none; background: #FFEBEE; border-left: 4px solid var(--color-danger); color: #C62828; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 0.88rem;">
+        </div>
+
+        <form id="marketplaceEnquiryForm" onsubmit="handleEnquiryFormSubmit(event)">
+          <input type="hidden" id="enquiryCropId">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="enquiry_buyer_name">Your Name / Business Name *</label>
+              <input type="text" id="enquiryBuyerName" class="form-control" placeholder="e.g. Ramesh Traders, Sri Krishna Mill" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="enquiry_contact_phone">Contact Mobile Number *</label>
+              <input type="tel" id="enquiryBuyerPhone" class="form-control" placeholder="10-digit mobile number" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" data-i18n="enquiry_qty_needed">Quantity Required *</label>
+              <input type="number" id="enquiryQuantity" class="form-control" placeholder="e.g. 40" min="1" step="any" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="enquiry_offered_price">Offered Price per Unit (₹) *</label>
+              <input type="number" id="enquiryOfferedPrice" class="form-control" placeholder="e.g. 2750" min="1" step="any" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="enquiry_message">Message to Farmer (Optional)</label>
+            <textarea id="enquiryMessage" class="form-control" rows="3" placeholder="Specify preferred pickup date, packaging requirements, or payment terms..."></textarea>
+          </div>
+
+          <div style="background: var(--color-ivory-light); padding: 10px 14px; border-radius: var(--radius-sm); border-left: 3px solid var(--color-gold); font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 18px;">
+            🔒 <strong>Privacy & Direct Trade Guarantee:</strong> Your contact number is kept safe locally and only shared with this specific seller upon submission.
+          </div>
+
+          <button type="submit" class="btn-primary" data-i18n="btn_send_enquiry">Send Enquiry to Farmer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Voice Action Button (Mobile) -->
+  <button class="fab-voice mic-trigger-btn" onclick="openModal('voiceModal')" title="Voice Assistant" aria-label="Open Voice Assistant">
+    🎙️
+  </button>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-item active" id="bNavHome" onclick="switchView('home')">
+      <span>🏠</span>
+      <span data-i18n="nav_home">Home</span>
+    </div>
+    <div class="bottom-nav-item" id="bNavRent" onclick="openModal('machineryModal')">
+      <span>🚜</span>
+      <span data-i18n="nav_machinery">Rent</span>
+    </div>
+    <div class="bottom-nav-item" id="bNavMarket" onclick="switchView('marketplace', 'browse')">
+      <span>🌾</span>
+      <span>Market</span>
+    </div>
+    <div class="bottom-nav-item" id="bNavCalc" onclick="openModal('calculatorModal')">
+      <span>💰</span>
+      <span data-i18n="nav_profit">Calculator</span>
+    </div>
+    <div class="bottom-nav-item" id="bNavVoice" onclick="openModal('voiceModal')">
+      <span>🎙️</span>
+      <span data-i18n="nav_assistant">Voice AI</span>
+    </div>
+    <div class="bottom-nav-item" id="bNavProfile" onclick="if (isAuthenticated()) { openUserProfileModal(); } else { openAuthModal('login'); }">
+      <span>👤</span>
+      <span data-i18n="nav_profile">Profile</span>
+    </div>
+  </nav>
+
+  <!-- MODAL: User Authentication (Login, Register, Forgot Password, Supabase Setup) -->
+  <div class="modal-overlay" id="authModal" onclick="closeModalOnBackdrop(event, 'authModal')">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="auth_modal_title">🔐 KrishiSetu AI Account Access</h3>
+          <p>Login or register as Farmer, Machinery Owner, or Crop Buyer.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('authModal')">✕</button>
+      </div>
+
+      <!-- Auth Tab Navigation -->
+      <div class="calc-tab-nav" style="padding: 0 24px; margin-top: 14px; margin-bottom: 14px;">
+        <button type="button" class="calc-tab-btn active" id="authTabLoginBtn" onclick="switchAuthTab('login')">
+          <span>🔑</span> <span data-i18n="auth_tab_login">Log In</span>
+        </button>
+        <button type="button" class="calc-tab-btn" id="authTabSignupBtn" onclick="switchAuthTab('signup')">
+          <span>✨</span> <span data-i18n="auth_tab_signup">Create Account</span>
+        </button>
+        <button type="button" class="calc-tab-btn" id="authTabForgotBtn" onclick="switchAuthTab('forgot')">
+          <span>❓</span> <span data-i18n="auth_tab_forgot">Forgot Password</span>
+        </button>
+        <button type="button" class="calc-tab-btn" id="authTabSupabaseBtn" onclick="switchAuthTab('supabase')">
+          <span>☁️</span> <span data-i18n="auth_tab_supabase">Cloud Setup (Supabase)</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 6px;">
+        <!-- Global Feedback Alert Box -->
+        <div id="authAlertBox" style="display: none; padding: 10px 14px; background: #FFF9E6; border: 1.5px solid var(--color-gold); border-radius: var(--radius-sm); font-size: 0.88rem; color: var(--color-forest-dark); margin-bottom: 14px;"></div>
+
+        <!-- TAB 1: LOG IN -->
+        <div id="authTabLogin">
+          <!-- Quick Demo Logins for Testing -->
+          <div class="demo-accounts-box">
+            <div style="font-size: 0.8rem; font-weight: 700; color: var(--color-forest); margin-bottom: 6px;">
+              ⚡ Quick Demo Testing (1-Click Login):
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="demo-account-chip" onclick="quickDemoLogin('farmer')">
+                <span>👨‍🌾</span> Farmer (Ramesh)
+              </button>
+              <button type="button" class="demo-account-chip" onclick="quickDemoLogin('owner')">
+                <span>🚜</span> Machinery Owner
+              </button>
+              <button type="button" class="demo-account-chip" onclick="quickDemoLogin('buyer')">
+                <span>🏢</span> Crop Buyer
+              </button>
+            </div>
+          </div>
+
+          <form id="userLoginForm" onsubmit="handleUserLogin(event)">
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" id="loginEmail" class="form-control" placeholder="e.g. farmer@krishisetu.ai" required>
+            </div>
+
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label class="form-label" style="margin-bottom: 0;">Password *</label>
+                <a href="javascript:void(0)" onclick="switchAuthTab('forgot')" style="font-size: 0.8rem; color: var(--color-leaf); font-weight: 700;">Forgot Password?</a>
+              </div>
+              <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+              <input type="checkbox" id="loginRememberMe" checked>
+              <label for="loginRememberMe" style="font-size: 0.85rem; color: var(--color-forest); cursor: pointer;">Stay logged in on this browser</label>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; font-size: 0.95rem; padding: 10px;" data-i18n="btn_login_submit">
+              🔑 Sign In
+            </button>
+
+            <div style="text-align: center; margin-top: 14px; font-size: 0.88rem; color: var(--color-text-muted);">
+              Don't have an account yet? <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color: var(--color-leaf); font-weight: 700;">Create free account</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB 2: CREATE ACCOUNT -->
+        <div id="authTabSignup" style="display: none;">
+          <form id="userRegistrationForm" onsubmit="handleUserRegistration(event)">
+            <!-- Account Type Role Selector -->
+            <label class="form-label" style="margin-bottom: 8px;">Select Your Primary Role *</label>
+            <div class="role-selector-grid">
+              <div class="role-card-select selected" id="roleCard_farmer" onclick="selectRoleCard('farmer')">
+                <input type="radio" name="regRole" id="radioRole_farmer" value="farmer" checked style="display: none;">
+                <span class="role-card-icon">👨‍🌾</span>
+                <span class="role-card-title">Farmer</span>
+                <span class="role-card-desc">Sell produce & rent tools</span>
+              </div>
+              <div class="role-card-select" id="roleCard_owner" onclick="selectRoleCard('owner')">
+                <input type="radio" name="regRole" id="radioRole_owner" value="owner" style="display: none;">
+                <span class="role-card-icon">🚜</span>
+                <span class="role-card-title">Machinery Owner</span>
+                <span class="role-card-desc">List equipment & earn</span>
+              </div>
+              <div class="role-card-select" id="roleCard_buyer" onclick="selectRoleCard('buyer')">
+                <input type="radio" name="regRole" id="radioRole_buyer" value="buyer" style="display: none;">
+                <span class="role-card-icon">🏢</span>
+                <span class="role-card-title">Buyer / Miller</span>
+                <span class="role-card-desc">Direct farm procurement</span>
+              </div>
+            </div>
+
+            <div id="secondaryRoleOptionBox" style="margin-bottom: 12px; background: #FFFDF8; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--color-gold-soft);">
+              <label style="font-size: 0.82rem; color: var(--color-forest); display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="regAlsoOwnsMachinery">
+                <span>🚜 I also own farm machinery and want permission to list equipment for rent</span>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" id="regFullName" class="form-control" placeholder="e.g. Ramesh Gowda" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mobile Number (10 digits) *</label>
+                <input type="tel" id="regPhone" class="form-control" placeholder="e.g. 9845012345" maxlength="10" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" id="regEmail" class="form-control" placeholder="e.g. ramesh@gmail.com" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Password (min 6 characters) *</label>
+                <input type="password" id="regPassword" class="form-control" placeholder="••••••••" minlength="6" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm Password *</label>
+                <input type="password" id="regConfirmPassword" class="form-control" placeholder="••••••••" minlength="6" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">State *</label>
+                <select id="regState" class="form-control">
+                  <option value="Karnataka" selected>Karnataka</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Other">Other State</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">District *</label>
+                <select id="regDistrict" class="form-control">
+                  <option value="Mandya" selected>Mandya</option>
+                  <option value="Kolar">Kolar</option>
+                  <option value="Davanagere">Davanagere</option>
+                  <option value="Shimoga">Shimoga</option>
+                  <option value="Belagavi">Belagavi</option>
+                  <option value="Mysore">Mysore</option>
+                  <option value="Tumkur">Tumkur</option>
+                  <option value="Hassan">Hassan</option>
+                  <option value="Other">Other District</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Village / Town (Optional)</label>
+              <input type="text" id="regVillage" class="form-control" placeholder="e.g. Maddur, Halagur">
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; font-size: 0.95rem; padding: 10px;" data-i18n="btn_signup_submit">
+              ✨ Create Free Account
+            </button>
+
+            <div style="text-align: center; margin-top: 14px; font-size: 0.88rem; color: var(--color-text-muted);">
+              Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color: var(--color-leaf); font-weight: 700;">Sign in here</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB 3: FORGOT PASSWORD -->
+        <div id="authTabForgot" style="display: none;">
+          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 14px;">
+            Enter the email address associated with your KrishiSetu AI account. We'll send you a secure link to reset your password.
+          </p>
+
+          <div id="forgotSuccessMsg" style="display: none; padding: 10px 14px; background: #E8F8F5; border: 1px solid #A2D9CE; border-radius: var(--radius-sm); color: #0E6251; font-size: 0.88rem; margin-bottom: 14px;"></div>
+
+          <form id="forgotPasswordForm" onsubmit="handleForgotPassword(event)">
+            <div class="form-group">
+              <label class="form-label">Your Account Email Address *</label>
+              <input type="email" id="forgotEmail" class="form-control" placeholder="e.g. farmer@krishisetu.ai" required>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; font-size: 0.95rem; padding: 10px;">
+              📧 Send Password Reset Instructions
+            </button>
+
+            <div style="text-align: center; margin-top: 14px;">
+              <button type="button" class="btn-outline" style="font-size: 0.85rem; padding: 6px 14px;" onclick="switchAuthTab('login')">
+                ← Back to Log In
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TAB 4: SUPABASE CLOUD SETUP -->
+        <div id="authTabSupabase" style="display: none;">
+          <div style="margin-bottom: 14px;">
+            <div id="supabaseCloudStatusBadge" class="supabase-badge-status status-local-active">
+              🟡 Local Auth Engine Active (Zero-Config Development)
+            </div>
+          </div>
+
+          <div style="background: var(--color-ivory-light); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--color-forest);">
+            <strong>📌 Production Supabase Setup Guide:</strong>
+            <ol style="margin: 6px 0 0 16px; padding: 0;">
+              <li>Create a free project at <a href="https://supabase.com" target="_blank" style="color: var(--color-leaf); font-weight: 700;">supabase.com</a>.</li>
+              <li>Go to <strong>Project Settings → API</strong>. Copy your <strong>Project URL</strong> and <strong>anon public key</strong>.</li>
+              <li>In Supabase <strong>SQL Editor</strong>, run the provided <code>supabase-schema.sql</code> to create all tables with Row Level Security (RLS) policies.</li>
+              <li>Paste your keys below and click <strong>"Connect Supabase"</strong>.</li>
+            </ol>
+          </div>
+
+          <form id="supabaseConfigForm" onsubmit="handleSaveSupabaseConfig(event)">
+            <div class="form-group">
+              <label class="form-label">Supabase Project URL</label>
+              <input type="url" id="cfgSupabaseUrl" class="form-control" placeholder="https://your-project.supabase.co">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Supabase Anon Public Key (Safe for browser)</label>
+              <textarea id="cfgSupabaseAnonKey" class="form-control" rows="2" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+              <small style="color: var(--color-text-muted); font-size: 0.78rem;">🔒 Only paste the PUBLIC 'anon' key. Never use the private 'service_role' secret.</small>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button type="submit" class="btn-primary" style="flex: 2;">
+                ☁️ Connect Supabase Cloud
+              </button>
+              <button type="button" class="btn-outline" style="flex: 1;" onclick="handleClearSupabaseConfig()">
+                Disconnect
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: User Profile Modal -->
+  <div class="modal-overlay" id="userProfileModal" onclick="closeModalOnBackdrop(event, 'userProfileModal')">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h3 data-i18n="profile_modal_title">👤 Farmer & User Profile</h3>
+          <p>Manage your account settings, personal listings, and role permissions.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('userProfileModal')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Header Banner -->
+        <div class="profile-header-card">
+          <div class="profile-avatar-large" id="profileAvatarLarge">R</div>
+          <div>
+            <h3 id="profileModalName" style="color: #FFFFFF; margin: 0; font-size: 1.25rem;">Ramesh Gowda</h3>
+            <div id="profileModalEmail" style="font-size: 0.85rem; color: var(--color-gold-soft); margin-top: 2px;">farmer@krishisetu.ai</div>
+            <span class="profile-role-badge" id="profileModalRoleBadge">🌾 Registered Farmer</span>
+          </div>
+        </div>
+
+        <!-- Role-Specific Action Shortcuts -->
+        <h4 style="color: var(--color-forest); font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;">🚀 Quick Actions for Your Role:</h4>
+        <div class="profile-shortcuts-grid" id="profileShortcutsContainer">
+          <!-- Populated dynamically based on user role -->
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="expense-group-box" style="margin-bottom: 16px;">
+          <h4 style="color: var(--color-forest); font-weight: 800; font-size: 0.95rem; margin-bottom: 12px;">✏️ Update Personal Details</h4>
+          <form id="editProfileForm" onsubmit="handleSaveProfile(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="profileFullName" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contact Mobile</label>
+                <input type="tel" id="profilePhone" class="form-control" maxlength="10">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">District</label>
+                <select id="profileDistrict" class="form-control">
+                  <option value="Mandya">Mandya</option>
+                  <option value="Kolar">Kolar</option>
+                  <option value="Davanagere">Davanagere</option>
+                  <option value="Shimoga">Shimoga</option>
+                  <option value="Belagavi">Belagavi</option>
+                  <option value="Mysore">Mysore</option>
+                  <option value="Tumkur">Tumkur</option>
+                  <option value="Hassan">Hassan</option>
+                  <option value="Other">Other District</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Village / Town</label>
+                <input type="text" id="profileVillage" class="form-control">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">
+              💾 Save Profile Updates
+            </button>
+          </form>
+        </div>
+
+        <!-- Log Out & Backend Setup Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border); padding-top: 14px; flex-wrap: wrap; gap: 8px;">
+          <button type="button" class="btn-outline" style="font-size: 0.85rem;" onclick="closeModal('userProfileModal'); openAuthModal('supabase');">
+            ☁️ Cloud Backend Settings
+          </button>
+          <button type="button" class="btn-remove-offer" style="font-size: 0.9rem; padding: 6px 14px; font-weight: 700;" onclick="handleUserLogout()" data-i18n="btn_logout">
+            🚪 Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">🌱 KrishiSetu AI (ಕೃಷಿಸೇತು / कृषिसेतु)</div>
+      <p data-i18n="footer_rights">KrishiSetu AI — Empowering Indian Farmers with Technology.</p>
+      <p class="footer-sub" data-i18n="footer_hackathon">Built for Agriculture Innovation Hackathon</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/voice-assistant.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
